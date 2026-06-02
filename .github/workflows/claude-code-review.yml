@@ -36,5 +36,6 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          prompt: 'このPRの変更内容をレビューしてください。問題があれば指摘し、改善点があれば提案してください。'
+          prompt: 'このPRの変更内容をレビューしてください。問題があれば指摘し、改善点があれば提案してください。レビュー結果をPRコメントとして投稿してください。'
+          use_sticky_comment: true
 
