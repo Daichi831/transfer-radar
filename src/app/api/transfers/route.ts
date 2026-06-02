@@ -9,8 +9,8 @@ const RSS_FEEDS = [
     url: "https://www.skysports.com/rss/12040",
   },
   {
-    name: "BBC Sport",
-    url: "https://feeds.bbci.co.uk/sport/football/rss.xml",
+    name: "Transfermarkt",
+    url: "https://www.transfermarkt.com/rss/news",
   },
   {
     name: "ESPN FC",
