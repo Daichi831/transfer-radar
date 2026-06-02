@@ -26,7 +26,7 @@ src/
 
 ### API Route (`/api/transfers`)
 
-- Sky Sports、BBC Sport、ESPN FC、The Guardian、The AthleticからRSSフィードを取得
+- Sky Sports、BBC Sport、ESPN FC、The AthleticからRSSフィードを取得
 - 移籍関連キーワード（transfer, sign, deal, move, join, loan等）でフィルタリング
 - 記事タイトル・内容から選手名・チーム名を正規表現で抽出
 
@@ -35,7 +35,7 @@ src/
 - クライアントコンポーネント（`"use client"`）
 - 記事一覧をカード形式で表示
 - クリックで元記事を新規タブで開く
-- ソース別に色分け（Sky Sports=赤、BBC=オレンジ、ESPN=青、The Guardian=インディゴ、The Athletic=エメラルド）
+- ソース別に色分け（Sky Sports=赤、BBC=オレンジ、ESPN=青、The Athletic=エメラルド）
 
 ## コマンド
 
@@ -53,7 +53,6 @@ npm run lint     # ESLint実行
 | Sky Sports | https://www.skysports.com/rss/12040 |
 | BBC Sport | https://feeds.bbci.co.uk/sport/football/rss.xml |
 | ESPN FC | https://www.espn.com/espn/rss/soccer/news |
-| The Guardian | https://www.theguardian.com/football/rss |
 | The Athletic | https://theathletic.com/rss/football/ |
 
 ## 移籍情報抽出ロジック

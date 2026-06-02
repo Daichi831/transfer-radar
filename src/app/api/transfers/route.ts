@@ -17,10 +17,6 @@ const RSS_FEEDS = [
     url: "https://www.espn.com/espn/rss/soccer/news",
   },
   {
-    name: "The Guardian",
-    url: "https://www.theguardian.com/football/rss",
-  },
-  {
     name: "The Athletic",
     url: "https://theathletic.com/rss/football/",
   },
