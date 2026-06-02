@@ -73,6 +73,7 @@ npm run lint     # ESLint実行
 
 - `main`ブランチへは直接pushしない
 - PRを作成してマージする
+- PRで `@claude` をメンションするとレビュー
 - マージ後、Vercelが自動デプロイ
 
 ## 環境要件
