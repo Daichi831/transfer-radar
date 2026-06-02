@@ -63,6 +63,18 @@ npm run lint     # ESLint実行
 2. **チーム名**: 有名クラブ名リスト（CLUBS配列）との照合
 3. **移籍方向**: "from Club" / "to Club" パターンで判定
 
+## ブランチ運用
+
+| 種類 | 命名規則 | 例 |
+|------|----------|-----|
+| 機能追加 | `feature/機能名` | `feature/league-filter` |
+| バグ修正 | `fix/内容` | `fix/duplicate-articles` |
+| リファクタ | `refactor/内容` | `refactor/api-cleanup` |
+
+- `main`ブランチへは直接pushしない
+- PRを作成してマージする
+- マージ後、Vercelが自動デプロイ
+
 ## 環境要件
 
 - Node.js >= 18.17.0（推奨: 20.9.0以上）
