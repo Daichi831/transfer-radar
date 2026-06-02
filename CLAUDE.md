@@ -26,7 +26,7 @@ src/
 
 ### API Route (`/api/transfers`)
 
-- Sky Sports、BBC Sport、ESPN FC、The AthleticからRSSフィードを取得
+- Sky Sports、Transfermarkt、ESPN FC、The AthleticからRSSフィードを取得
 - 移籍関連キーワード（transfer, sign, deal, move, join, loan等）でフィルタリング
 - 記事タイトル・内容から選手名・チーム名を正規表現で抽出
 
@@ -35,7 +35,7 @@ src/
 - クライアントコンポーネント（`"use client"`）
 - 記事一覧をカード形式で表示
 - クリックで元記事を新規タブで開く
-- ソース別に色分け（Sky Sports=赤、BBC=オレンジ、ESPN=青、The Athletic=エメラルド）
+- ソース別に色分け（Sky Sports=赤、Transfermarkt=紫、ESPN=青、The Athletic=エメラルド）
 
 ## コマンド
 
@@ -51,7 +51,7 @@ npm run lint     # ESLint実行
 | ソース | URL |
 |--------|-----|
 | Sky Sports | https://www.skysports.com/rss/12040 |
-| BBC Sport | https://feeds.bbci.co.uk/sport/football/rss.xml |
+| Transfermarkt | https://www.transfermarkt.com/rss/news |
 | ESPN FC | https://www.espn.com/espn/rss/soccer/news |
 | The Athletic | https://theathletic.com/rss/football/ |
 
@@ -73,7 +73,8 @@ npm run lint     # ESLint実行
 
 - `main`ブランチへは直接pushしない
 - PRを作成してマージする
-- PRで `@claude` をメンションするとレビュー
+- **PRの本文**に `@claude` を含めると自動でレビューが入る
+- PRのコメント欄でも `@claude` をメンションするとレビュー可能
 - マージ後、Vercelが自動デプロイ
 
 ## 環境要件
@@ -82,7 +83,6 @@ npm run lint     # ESLint実行
 
 ## 今後の拡張候補
 
-- Transfermarkt API連携（RapidAPI経由）
 - リーグ別フィルター機能
 - 選手検索機能
 - 移籍金情報の表示

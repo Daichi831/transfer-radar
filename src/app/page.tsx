@@ -54,8 +54,8 @@ export default function Home() {
     switch (source) {
       case "Sky Sports":
         return "bg-red-600";
-      case "BBC Sport":
-        return "bg-amber-600";
+      case "Transfermarkt":
+        return "bg-violet-600";
       case "ESPN FC":
         return "bg-blue-600";
       case "The Athletic":
@@ -203,7 +203,7 @@ export default function Home() {
 
       <footer className="border-t border-slate-700 py-6 mt-12">
         <div className="max-w-4xl mx-auto px-4 text-center text-slate-500 text-sm">
-          RSS feeds from Sky Sports, BBC Sport, ESPN FC
+          RSS feeds from Sky Sports, Transfermarkt, ESPN FC, The Athletic
         </div>
       </footer>
     </div>
