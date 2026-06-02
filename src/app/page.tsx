@@ -58,6 +58,10 @@ export default function Home() {
         return "bg-amber-600";
       case "ESPN FC":
         return "bg-blue-600";
+      case "The Guardian":
+        return "bg-indigo-600";
+      case "The Athletic":
+        return "bg-emerald-600";
       default:
         return "bg-gray-600";
     }
