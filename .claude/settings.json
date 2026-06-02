@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(npm test *)",
+      "Bash(npx *)"
+    ],
+    "ask": [
+      "Bash(npm install *)",
+      "Bash(npm uninstall *)",
+      "Bash(rm *)",
+      "Bash(mv *)",
+      "Bash(git push *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git merge *)"
+    ],
+    "deny": [
+      "Bash(sudo *)",
+      "Bash(rm -rf *)",
+      "Bash(rm -rf)",
+      "Bash(*rm -rf*)",
+      "Bash(git push --force*)",
+      "Bash(git reset --hard *)"
+    ]
+  }
+}
