@@ -174,7 +174,18 @@ export async function GET() {
       (a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime()
     );
 
-    return NextResponse.json({ news: allNews });
+    // 重複を除去（タイトルで判定）
+    const seenTitles = new Set<string>();
+    const uniqueNews = allNews.filter((item) => {
+      const normalizedTitle = item.title.toLowerCase().trim();
+      if (seenTitles.has(normalizedTitle)) {
+        return false;
+      }
+      seenTitles.add(normalizedTitle);
+      return true;
+    });
+
+    return NextResponse.json({ news: uniqueNews });
   } catch (error) {
     console.error("Error fetching transfers:", error);
     return NextResponse.json(
