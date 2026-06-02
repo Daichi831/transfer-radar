@@ -3,7 +3,10 @@
     "allow": [
       "Bash(npm run *)",
       "Bash(npm test *)",
-      "Bash(npx *)"
+      "Bash(npx *)",
+      "Edit",
+      "Write",
+      "Read"
     ],
     "ask": [
       "Bash(npm install *)",
