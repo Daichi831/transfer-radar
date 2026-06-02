@@ -125,6 +125,13 @@ export async function GET() {
             );
             if (isWomenFootball) return false;
 
+            // アメフト関連を除外
+            const nflKeywords = ["nfl", "touchdown", "quarterback", "super bowl", "patriots", "chiefs", "cowboys", "49ers", "rams", "browns", "ravens", "bills", "dolphins", "jets", "steelers", "bengals", "colts", "texans", "jaguars", "titans", "broncos", "raiders", "chargers", "seahawks", "cardinals", "falcons", "panthers", "saints", "buccaneers", "bears", "lions", "packers", "vikings", "commanders", "giants", "eagles"];
+            const isNFL = nflKeywords.some(
+              (keyword) => title.includes(keyword) || content.includes(keyword)
+            );
+            if (isNFL) return false;
+
             return (
               title.includes("transfer") ||
               title.includes("sign") ||
