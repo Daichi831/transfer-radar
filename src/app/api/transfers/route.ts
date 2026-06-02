@@ -117,6 +117,14 @@ export async function GET() {
           .filter((item) => {
             const title = item.title?.toLowerCase() || "";
             const content = item.contentSnippet?.toLowerCase() || "";
+
+            // 女子サッカー関連を除外
+            const womenKeywords = ["wsl", "women", "nwsl", "lionesses", "women's", "female", "ladies"];
+            const isWomenFootball = womenKeywords.some(
+              (keyword) => title.includes(keyword) || content.includes(keyword)
+            );
+            if (isWomenFootball) return false;
+
             return (
               title.includes("transfer") ||
               title.includes("sign") ||
