@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import Parser from "rss-parser";
+import type { TransferNews } from "@/types/transfer";
 
 const parser = new Parser();
 
@@ -37,20 +38,6 @@ const CLUBS = [
   "PSG", "Paris Saint-Germain", "Monaco", "Marseille",
 ];
 
-export interface TransferNews {
-  id: string;
-  title: string;
-  link: string;
-  pubDate: string;
-  source: string;
-  content?: string;
-  extractedInfo?: {
-    playerName?: string;
-    fromTeam?: string;
-    toTeam?: string;
-  };
-}
-
 // タイトルと内容から選手名・チーム名を抽出
 function extractTransferInfo(title: string, content: string): {
   playerName?: string;
@@ -69,6 +56,8 @@ function extractTransferInfo(title: string, content: string): {
   }
 
   // パターンマッチングで移籍情報を抽出
+  const clubsPattern = CLUBS.map((c) => c.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|");
+
   // "Player joins Club" パターン
   const joinsMatch = title.match(/([A-Z][a-z]+ [A-Z][a-z]+(?:\s[A-Z][a-z]+)?)\s+(?:joins|signs for|moves to|set to join|close to joining|completes move to)/i);
   if (joinsMatch) {
@@ -82,13 +71,13 @@ function extractTransferInfo(title: string, content: string): {
   }
 
   // "Player from Club" パターン
-  const fromMatch = text.match(/from\s+(Arsenal|Chelsea|Liverpool|Manchester United|Manchester City|Tottenham|Real Madrid|Barcelona|Bayern Munich|Borussia Dortmund|Juventus|PSG|Paris Saint-Germain)/i);
+  const fromMatch = text.match(new RegExp(`from\\s+(${clubsPattern})`, "i"));
   if (fromMatch) {
     result.fromTeam = fromMatch[1];
   }
 
   // "to Club" パターン
-  const toMatch = text.match(/(?:to|joins?|for)\s+(Arsenal|Chelsea|Liverpool|Manchester United|Manchester City|Tottenham|Real Madrid|Barcelona|Bayern Munich|Borussia Dortmund|Juventus|PSG|Paris Saint-Germain)/i);
+  const toMatch = text.match(new RegExp(`(?:to|joins?|for)\\s+(${clubsPattern})`, "i"));
   if (toMatch) {
     result.toTeam = toMatch[1];
   }
@@ -106,6 +95,20 @@ function extractTransferInfo(title: string, content: string): {
   return result;
 }
 
+const WOMEN_KEYWORDS = ["wsl", "women", "nwsl", "lionesses", "women's", "female", "ladies"];
+const NFL_KEYWORDS = ["nfl", "touchdown", "quarterback", "super bowl", "patriots", "chiefs", "cowboys", "49ers", "rams", "browns", "ravens", "bills", "dolphins", "jets", "steelers", "bengals", "colts", "texans", "jaguars", "titans", "broncos", "raiders", "chargers", "seahawks", "cardinals", "falcons", "panthers", "saints", "buccaneers", "bears", "lions", "packers", "vikings", "commanders", "giants", "eagles"];
+const TRANSFER_KEYWORDS = ["transfer", "sign", "deal", "move", "join", "loan", "target", "bid"];
+
+function isTransferRelated(title: string, content: string): boolean {
+  if (WOMEN_KEYWORDS.some((kw) => title.includes(kw) || content.includes(kw))) return false;
+  if (NFL_KEYWORDS.some((kw) => title.includes(kw) || content.includes(kw))) return false;
+  return (
+    TRANSFER_KEYWORDS.some((kw) => title.includes(kw)) ||
+    content.includes("transfer") ||
+    content.includes("signing")
+  );
+}
+
 export async function GET() {
   try {
     const allNews: TransferNews[] = [];
@@ -117,33 +120,7 @@ export async function GET() {
           .filter((item) => {
             const title = item.title?.toLowerCase() || "";
             const content = item.contentSnippet?.toLowerCase() || "";
-
-            // 女子サッカー関連を除外
-            const womenKeywords = ["wsl", "women", "nwsl", "lionesses", "women's", "female", "ladies"];
-            const isWomenFootball = womenKeywords.some(
-              (keyword) => title.includes(keyword) || content.includes(keyword)
-            );
-            if (isWomenFootball) return false;
-
-            // アメフト関連を除外
-            const nflKeywords = ["nfl", "touchdown", "quarterback", "super bowl", "patriots", "chiefs", "cowboys", "49ers", "rams", "browns", "ravens", "bills", "dolphins", "jets", "steelers", "bengals", "colts", "texans", "jaguars", "titans", "broncos", "raiders", "chargers", "seahawks", "cardinals", "falcons", "panthers", "saints", "buccaneers", "bears", "lions", "packers", "vikings", "commanders", "giants", "eagles"];
-            const isNFL = nflKeywords.some(
-              (keyword) => title.includes(keyword) || content.includes(keyword)
-            );
-            if (isNFL) return false;
-
-            return (
-              title.includes("transfer") ||
-              title.includes("sign") ||
-              title.includes("deal") ||
-              title.includes("move") ||
-              title.includes("join") ||
-              title.includes("loan") ||
-              title.includes("target") ||
-              title.includes("bid") ||
-              content.includes("transfer") ||
-              content.includes("signing")
-            );
+            return isTransferRelated(title, content);
           })
           .map((item) => {
             const title = item.title || "No title";
@@ -151,7 +128,7 @@ export async function GET() {
             const extractedInfo = extractTransferInfo(title, content);
 
             return {
-              id: item.guid || item.link || Math.random().toString(),
+              id: item.guid || item.link || `${feed.name}-${title}`,
               title,
               link: item.link || "",
               pubDate: item.pubDate || new Date().toISOString(),

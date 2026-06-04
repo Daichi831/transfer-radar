@@ -1,20 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-interface TransferNews {
-  id: string;
-  title: string;
-  link: string;
-  pubDate: string;
-  source: string;
-  content?: string;
-  extractedInfo?: {
-    playerName?: string;
-    fromTeam?: string;
-    toTeam?: string;
-  };
-}
+import type { TransferNews } from "@/types/transfer";
 
 export default function Home() {
   const [news, setNews] = useState<TransferNews[]>([]);
