@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { TransferNews } from "@/types/transfer";
+import type { TransferNews, TransferType } from "@/types/transfer";
 
 export default function Home() {
   const [news, setNews] = useState<TransferNews[]>([]);
@@ -54,6 +54,17 @@ export default function Home() {
 
   const handleArticleClick = (link: string) => {
     window.open(link, "_blank", "noopener,noreferrer");
+  };
+
+  const getTransferTypeBadge = (transferType: TransferType) => {
+    switch (transferType) {
+      case "complete":
+        return { label: "完全移籍", color: "bg-green-600" };
+      case "loan":
+        return { label: "ローン", color: "bg-blue-600" };
+      case "extension":
+        return { label: "契約延長", color: "bg-purple-600" };
+    }
   };
 
   return (
@@ -132,6 +143,31 @@ export default function Home() {
                   item.extractedInfo.fromTeam ||
                   item.extractedInfo.toTeam) && (
                   <div className="bg-slate-900/50 rounded-lg p-3 mb-3">
+                    {(item.extractedInfo.transferType ||
+                      item.extractedInfo.transferFee) && (
+                      <div className="flex items-center gap-2 mb-2">
+                        {item.extractedInfo.transferType && (
+                          <span
+                            className={`px-2 py-0.5 text-xs font-medium text-white rounded ${
+                              getTransferTypeBadge(
+                                item.extractedInfo.transferType
+                              ).color
+                            }`}
+                          >
+                            {
+                              getTransferTypeBadge(
+                                item.extractedInfo.transferType
+                              ).label
+                            }
+                          </span>
+                        )}
+                        {item.extractedInfo.transferFee && (
+                          <span className="text-sm text-slate-300 font-medium">
+                            {item.extractedInfo.transferFee}
+                          </span>
+                        )}
+                      </div>
+                    )}
                     <div className="flex flex-wrap items-center gap-3 text-sm">
                       {item.extractedInfo.playerName && (
                         <div className="flex items-center gap-1">
@@ -145,32 +181,25 @@ export default function Home() {
                         item.extractedInfo.toTeam) && (
                         <div className="flex items-center gap-2">
                           <span className="text-slate-400">移籍:</span>
-                          {item.extractedInfo.fromTeam && (
-                            <span className="text-slate-300">
-                              {item.extractedInfo.fromTeam}
-                            </span>
-                          )}
-                          {item.extractedInfo.fromTeam &&
-                            item.extractedInfo.toTeam && (
-                              <svg
-                                className="w-4 h-4 text-green-500"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M13 7l5 5m0 0l-5 5m5-5H6"
-                                />
-                              </svg>
-                            )}
-                          {item.extractedInfo.toTeam && (
-                            <span className="text-green-400 font-medium">
-                              {item.extractedInfo.toTeam}
-                            </span>
-                          )}
+                          <span className="text-slate-300">
+                            {item.extractedInfo.fromTeam || "不明"}
+                          </span>
+                          <svg
+                            className="w-4 h-4 text-green-500"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M13 7l5 5m0 0l-5 5m5-5H6"
+                            />
+                          </svg>
+                          <span className="text-green-400 font-medium">
+                            {item.extractedInfo.toTeam || "不明"}
+                          </span>
                         </div>
                       )}
                     </div>
