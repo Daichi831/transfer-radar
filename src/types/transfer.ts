@@ -1,3 +1,5 @@
+export type TransferType = "complete" | "loan" | "extension";
+
 export interface TransferNews {
   id: string;
   title: string;
@@ -9,5 +11,7 @@ export interface TransferNews {
     playerName?: string;
     fromTeam?: string;
     toTeam?: string;
+    transferType?: TransferType;
+    transferFee?: string;
   };
 }
